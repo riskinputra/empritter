@@ -20,6 +20,12 @@ export const store = new Vuex.Store({
     },
     addPost (state, payload) {
       state.tweets.push(payload)
+    },
+    remove (state, payload) {
+      const filter = state.tweets.filter(newtweets => {
+        return newtweets._id !== payload._id
+      })
+      state.tweets = filter
     }
   },
   actions: {
@@ -59,6 +65,18 @@ export const store = new Vuex.Store({
         .then(({ data }) => {
           console.log(data)
           commit('addPost', data.data)
+        })
+        .catch(err => console.error(err))
+    },
+    removeTweets ({ commit }, payload) {
+      http.delete(`/api/tweets/${payload}`, {
+        headers: {
+          'token': localStorage.getItem('token')
+        }
+      })
+        .then(({ data }) => {
+          console.log(data)
+          commit('remove', data.data)
         })
         .catch(err => console.error(err))
     }

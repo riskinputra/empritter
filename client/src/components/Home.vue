@@ -1,6 +1,5 @@
 <template>
   <section id="home" v-show="show">
-    <v-layout row>
       <v-flex xs12>
         <v-card>
           <v-card-text>
@@ -28,9 +27,7 @@
           </v-card-text>
         </v-card>
       </v-flex>
-    </v-layout>
-    <v-layout style="padding-top:10px">
-      <v-flex xs12>
+      <v-flex xs12 style="padding:10px 0;">
         <v-text-field
         light
         solo
@@ -40,17 +37,20 @@
         style="width: 100%; min-width: 128px"
       ></v-text-field>
       </v-flex>
-      <v-flex xs12 v-for="(tweet, index) in filteredList" :key="index">
+      <v-flex xs12 v-for="(tweet, index) in filteredList" :key="index" style="padding:10px 0;">
         <v-card>
           <v-card-actions>
             {{tweet.userId.username}}
+            <v-spacer></v-spacer>
+            <v-btn icon color="red" dark @click="deleteQuestions(tweet._id)">
+              <v-icon>delete</v-icon>
+            </v-btn>
           </v-card-actions>
           <v-card-text>
             {{tweet.post}}
           </v-card-text>
         </v-card>
       </v-flex>
-    </v-layout>
   </section>
 </template>
 
@@ -101,6 +101,9 @@ export default {
     ]),
     clear () {
       this.$refs.form.reset()
+    },
+    deleteQuestions (data) {
+      this.$store.dispatch('removeTweets', data)
     }
   }
 }
