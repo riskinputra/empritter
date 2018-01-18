@@ -12,7 +12,8 @@ Vue.use(Vuex)
 export const store = new Vuex.Store({
   strict: true,
   state: {
-    tweets: []
+    tweets: [],
+    profile: []
   },
   mutations: {
     setTweets (state, payload) {
@@ -26,6 +27,9 @@ export const store = new Vuex.Store({
         return newtweets._id !== payload._id
       })
       state.tweets = filter
+    },
+    profile (state, payload) {
+      state.profile = payload
     }
   },
   actions: {
@@ -91,6 +95,7 @@ export const store = new Vuex.Store({
       })
         .then(({ data }) => {
           console.log(data)
+          commit('profile', data.data)
         })
         .catch(err => console.error(err))
     }

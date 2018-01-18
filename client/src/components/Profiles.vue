@@ -1,12 +1,26 @@
 <template>
   <section>
-    <h1>profiles</h1>
+    <h1>{{profile}}</h1>
   </section>
 </template>
 
 <script>
-export default {
+import { mapActions, mapState } from 'vuex'
 
+export default {
+  created () {
+    this.getProfile()
+  },
+  computed: {
+    ...mapState([
+      'profile'
+    ])
+  },
+  methods: {
+    ...mapActions([
+      'getProfile'
+    ])
+  }
 }
 </script>
 
