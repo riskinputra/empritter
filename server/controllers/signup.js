@@ -4,7 +4,6 @@ const bcrypt = require('bcryptjs')
 class SignUpController {
   static createUser(req, res) {
     let hash = bcrypt.hashSync(req.body.password, 10)
-    console.log(req.body)
     let dataUser = new User({
       username: req.body.username,
       email: req.body.email,

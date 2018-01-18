@@ -11,13 +11,9 @@ const tweetsSchema = new Schema({
     type      : String,
     required  : [true, 'Post required']
   },
-  hastag  : {
-    type      : String  
-  },
-  image    : {
-    type    : String,
-    default : 'https://storage.googleapis.com/rnp-jepretgram/user.png'
-  },
+  hastag  : [{
+    type      : String
+  }],
   createdAt : {
     type      : Date,
     default   : new Date()
