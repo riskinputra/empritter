@@ -17,7 +17,6 @@ const app = express();
 require('dotenv').config()
 const db = mongoose.connection;
 mongoose.connect('mongodb://localhost:27017/mpritter')
-// mongoose.connect(`mongodb://admin:${process.env.PASSWORD}@cluster0-shard-00-00-4ut9u.mongodb.net:27017,cluster0-shard-00-01-4ut9u.mongodb.net:27017,cluster0-shard-00-02-4ut9u.mongodb.net:27017/mpritter?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin`)
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {
   // we're connected!
