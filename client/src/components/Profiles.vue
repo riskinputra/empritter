@@ -1,6 +1,13 @@
 <template>
   <section>
-    <h1>{{profile}}</h1>
+    <v-flex xs12>
+        <v-card>
+          <v-card-text>
+            <img :src="profile.image" alt="">
+            <p>{{profile.username}}</p>
+          </v-card-text>
+        </v-card>
+    </v-flex>
   </section>
 </template>
 
