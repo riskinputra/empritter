@@ -9,6 +9,7 @@
                   name="tweet"
                   label="Tweet Post"
                   id="tweet"
+                  :counter="140"
                   v-model="form.tweet"
                   type="text"
                   :rules="tweetRules"
@@ -67,7 +68,8 @@ export default {
         tweet: ''
       },
       tweetRules: [
-        (v) => !!v || 'Password is required'
+        (v) => !!v || 'Password is required',
+        (v) => v.length <= 140 || 'Max 140 characters'
       ],
       err: false
     }
