@@ -9,12 +9,14 @@ const cors = require('cors')
 
 const index = require('./routes/index');
 const users = require('./routes/users');
+const signup = require('./routes/signup');
+const signin = require('./routes/signin');
 
 const app = express();
 require('dotenv').config()
 const db = mongoose.connection;
-// mongoose.connect('mongodb://localhost:27017/mpritter')
-mongoose.connect(`mongodb://admin:${process.env.PASSWORD}@cluster0-shard-00-00-4ut9u.mongodb.net:27017,cluster0-shard-00-01-4ut9u.mongodb.net:27017,cluster0-shard-00-02-4ut9u.mongodb.net:27017/mpritter?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin`)
+mongoose.connect('mongodb://localhost:27017/mpritter')
+// mongoose.connect(`mongodb://admin:${process.env.PASSWORD}@cluster0-shard-00-00-4ut9u.mongodb.net:27017,cluster0-shard-00-01-4ut9u.mongodb.net:27017,cluster0-shard-00-02-4ut9u.mongodb.net:27017/mpritter?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin`)
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {
   // we're connected!
@@ -35,6 +37,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
 app.use('/users', users);
+app.use('/api/signup', signup);
+app.use('/api/signin', signin);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
