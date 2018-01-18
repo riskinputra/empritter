@@ -1,24 +1,31 @@
 <template>
-  <div id="app">
-    <header>
-      <span>Vue.js PWA</span>
-    </header>
-    <main>
-      <img src="./assets/logo.png" alt="Vue.js PWA">
-      <router-view></router-view>
-    </main>
-  </div>
+  <v-app id="app">
+    <header-navbar></header-navbar>
+    <v-content>
+      <v-container fluid>
+        <router-view></router-view>
+      </v-container>
+    </v-content>
+    <v-footer id="footer" light app class="pa-4">
+      <p>&copy; Copyright 2018 - Riski N Putra</p>
+    </v-footer>
+  </v-app>
 </template>
 
 <script>
+import HeaderNavbar from './components/HeaderNavbar'
 export default {
-  name: 'app'
+  name: 'app',
+  components: {
+    'header-navbar': HeaderNavbar
+  }
 }
 </script>
 
 <style>
-body {
+* {
   margin: 0;
+  padding: 0;
 }
 
 #app {
@@ -28,27 +35,4 @@ body {
   color: #2c3e50;
 }
 
-main {
-  text-align: center;
-  margin-top: 40px;
-}
-
-header {
-  margin: 0;
-  height: 56px;
-  padding: 0 16px 0 24px;
-  background-color: #35495E;
-  color: #ffffff;
-}
-
-header span {
-  display: block;
-  position: relative;
-  font-size: 20px;
-  line-height: 1;
-  letter-spacing: .02em;
-  font-weight: 400;
-  box-sizing: border-box;
-  padding-top: 16px;
-}
 </style>

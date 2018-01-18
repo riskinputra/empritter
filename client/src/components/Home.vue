@@ -26,6 +26,11 @@ export default {
     return {
       msg: 'Welcome to Your Vue.js PWA'
     }
+  },
+  created () {
+    if (localStorage.getItem('token')) {
+      this.$router.push('/signin')
+    }
   }
 }
 </script>
