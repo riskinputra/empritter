@@ -1,35 +1,106 @@
 <template>
-  <div class="hello">
-    <h1>{{ msg }}</h1>
-    <h2>Essential Links</h2>
-    <ul>
-      <li><a href="https://vuejs.org" target="_blank" rel="noopener">Core Docs</a></li>
-      <li><a href="https://forum.vuejs.org" target="_blank" rel="noopener">Forum</a></li>
-      <li><a href="http://chat.vuejs.org/" target="_blank" rel="noopener">Vue Community Chat</a></li>
-      <li><a href="https://twitter.com/vuejs" target="_blank" rel="noopener">Twitter</a></li>
-      <li><a href="http://vuejs-templates.github.io/webpack/" target="_blank" rel="noopener">Docs for This Template</a></li>
-    </ul>
-    <h2>Ecosystem</h2>
-    <ul>
-      <li><a href="http://router.vuejs.org/" target="_blank" rel="noopener">vue-router</a></li>
-      <li><a href="http://vuex.vuejs.org/" target="_blank" rel="noopener">vuex</a></li>
-      <li><a href="http://vue-loader.vuejs.org/" target="_blank" rel="noopener">vue-loader</a></li>
-      <li><a href="https://github.com/vuejs/awesome-vue" target="_blank" rel="noopener">awesome-vue</a></li>
-    </ul>
-  </div>
+  <section id="home" v-show="show">
+    <v-layout row>
+      <v-flex xs12>
+        <v-card>
+          <v-card-text>
+            <v-container>
+              <v-form v-model="valid" ref="form" lazy-validation>
+                <v-text-field
+                  name="tweet"
+                  label="Tweet Post"
+                  id="tweet"
+                  v-model="form.tweet"
+                  type="text"
+                  :rules="tweetRules"
+                  required
+                >
+                </v-text-field>
+                <v-btn 
+                  type="submit"
+                  color="info"
+                  @click.prevent="post(form)"
+                  :disabled="!valid"
+                >Tweets</v-btn>
+                <v-btn type="submit" color="orange" dark @click="clear">Clear</v-btn>
+              </v-form>
+            </v-container>
+          </v-card-text>
+        </v-card>
+      </v-flex>
+    </v-layout>
+    <v-layout style="padding-top:10px">
+      <v-flex xs12>
+        <v-text-field
+        light
+        solo
+        v-model="search"
+        prepend-icon="search"
+        placeholder="Search Questions"
+        style="width: 100%; min-width: 128px"
+      ></v-text-field>
+      </v-flex>
+      <v-flex xs12 v-for="(tweet, index) in filteredList" :key="index">
+        <v-card>
+          <v-card-actions>
+            {{tweet.userId.username}}
+          </v-card-actions>
+          <v-card-text>
+            {{tweet.post}}
+          </v-card-text>
+        </v-card>
+      </v-flex>
+    </v-layout>
+  </section>
 </template>
 
 <script>
+import { mapActions, mapState } from 'vuex'
+
 export default {
-  name: 'hello',
   data () {
     return {
-      msg: 'Welcome to Your Vue.js PWA'
+      search: '',
+      valid: true,
+      show: false,
+      form: {
+        tweet: ''
+      },
+      tweetRules: [
+        (v) => !!v || 'Password is required'
+      ],
+      err: false
     }
   },
   created () {
-    if (localStorage.getItem('token')) {
+    this.getTweets()
+  },
+  mounted () {
+    if (!localStorage.getItem('token')) {
       this.$router.push('/signin')
+    } else {
+      this.show = true
+    }
+  },
+  computed: {
+    ...mapState([
+      'tweets'
+    ]),
+    filteredList () {
+      return this.tweets.filter(post => {
+        return post.hastag.toLowerCase().includes(this.search.toLowerCase())
+      })
+    }
+  },
+  methods: {
+    post (data) {
+      this.$store.dispatch('postTweet', data)
+    },
+    ...mapActions([
+      'getTweets'
+    ]),
+    clear () {
+      this.$refs.form.reset()
     }
   }
 }

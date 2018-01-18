@@ -11,9 +11,9 @@ const tweetsSchema = new Schema({
     type      : String,
     required  : [true, 'Post required']
   },
-  hastag  : [{
+  hastag  : {
     type      : String
-  }],
+  },
   createdAt : {
     type      : Date,
     default   : new Date()

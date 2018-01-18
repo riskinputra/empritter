@@ -1,11 +1,21 @@
 <template>
-  <section>
+   <section>
      <v-layout row>
       <v-flex xs12 sm6 offset-sm3>
         <v-card>
           <v-card-text>
             <v-container>
               <v-form v-model="valid" ref="form" lazy-validation>
+                <v-text-field
+                  name="username"
+                  label="Username"
+                  id="username"
+                  v-model="form.username"
+                  type="text"
+                  :rules="usernameRules"
+                  required
+                >
+                </v-text-field>
                 <v-text-field
                   name="email"
                   label="E-mail"
@@ -51,9 +61,13 @@ export default {
     return {
       valid: true,
       form: {
+        username: '',
         email: '',
         password: ''
       },
+      usernameRules: [
+        (v) => !!v || 'Password is required'
+      ],
       /* eslint-disable */
       emailRules: [
         (v) => !!v || 'E-mail is required',
@@ -67,18 +81,11 @@ export default {
       err: false
     }
   },
-  created () {
-    if (localStorage.getItem('token')) {
-      this.$router.push('/')
-    } else {
-      this.$router.push('/signin')
-    }
-  },
   methods: {
     onSignin (data) {
       if (this.$refs.form.validate()) {
-        this.$store.dispatch('userSignin', data)
-        this.$router.push('/')
+        this.$store.dispatch('userSignup', data)
+        this.$router.push('/signin')
       }
     },
     clear () {

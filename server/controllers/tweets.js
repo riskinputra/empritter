@@ -5,6 +5,7 @@ const jwt = require('jsonwebtoken')
 class TweetController {
   static getAllTweet(req, res) {
     Tweet.find()
+    .populate('userId')
     .then(result => {
       res.status(200).json({
         message: 'Tweets All',

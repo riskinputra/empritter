@@ -31,17 +31,21 @@ export default {
       if (localStorage.getItem('token')) {
         let items = [
           { icon: 'home', title: 'Home', route: '/' },
-          { icon: 'add_circle', title: 'Add Post', route: '/post' }
+          { icon: 'face', title: 'Profile', route: '/profile' }
         ]
         return items
       } else {
         let items = [
-          { icon: 'home', title: 'Home', route: '/' },
           { icon: 'face', title: 'Signup', route: '/signup' },
           { icon: 'lock_open', title: 'Signin', route: '/signin' }
         ]
         return items
       }
+    }
+  },
+  methods: {
+    logout () {
+      localStorage.clear()
     }
   }
 }
