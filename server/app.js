@@ -8,7 +8,7 @@ const mongoose = require('mongoose');
 const cors = require('cors')
 
 const index = require('./routes/index');
-const users = require('./routes/users');
+const users = require('./routes/profiles');
 const signup = require('./routes/signup');
 const signin = require('./routes/signin');
 const tweets = require('./routes/tweets');
@@ -37,7 +37,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
-app.use('/users', users);
+app.use('/api/users', users);
 app.use('/api/signup', signup);
 app.use('/api/signin', signin);
 app.use('/api/tweets', tweets);
