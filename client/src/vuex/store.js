@@ -2,7 +2,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
-// import jwtDecode from 'jwt-decode'
+import jwtDecode from 'jwt-decode'
 
 const http = axios.create({
   baseURL: 'http://localhost:3005'
@@ -77,6 +77,20 @@ export const store = new Vuex.Store({
         .then(({ data }) => {
           console.log(data)
           commit('remove', data.data)
+        })
+        .catch(err => console.error(err))
+    },
+    getProfile ({ commit }) {
+      const token = localStorage.getItem('token')
+      const decode = jwtDecode(token)
+      const userId = decode.id
+      http.get(`/api/users/${userId}`, {
+        headers: {
+          'token': localStorage.getItem('token')
+        }
+      })
+        .then(({ data }) => {
+          console.log(data)
         })
         .catch(err => console.error(err))
     }
